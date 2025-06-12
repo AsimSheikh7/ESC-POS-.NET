@@ -126,6 +126,7 @@ namespace ESCPOS_NET.ConsoleTest
                         if (int.TryParse(c, out int chosen) && chosen > 0)
                         {
                             usbPort = usboptions[chosen - 1].DevicePath;
+                            Console.WriteLine(usbPort);
                         }
                     }
                     printer = new USBPrinter(usbPort);

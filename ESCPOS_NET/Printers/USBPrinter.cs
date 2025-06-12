@@ -12,8 +12,8 @@ namespace ESCPOS_NET.Printers
             //keeping separate file streams performs better
             //while using 1 file stream printers were having intermittent issues while printing
             //your milege may vary
-            _rfile = File.Open(usbPath, FileMode.Open, FileAccess.Read);
-            _wfile = File.Open(usbPath, FileMode.Open, FileAccess.Write);
+            _rfile = DeviceFile.OpenDevice(usbPath, FileAccess.Read);
+            _wfile = DeviceFile.OpenDevice(usbPath, FileAccess.Write);
             Writer = new BinaryWriter(_wfile);
             Reader = new BinaryReader(_rfile);
         }
