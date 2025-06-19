@@ -116,7 +116,9 @@ namespace ESCPOS_NET.ConsoleTest
                         while (i < usboptions.Count)
                         {
 
-                            Console.WriteLine($"{i + num}. Name: {usboptions[i].BusName} S/N: {usboptions[i].SerialNum}");
+                            //Console.WriteLine($"{i + num}. Name: {usboptions[i].BusName} S/N: {usboptions[i].SerialNum}");
+                            Console.WriteLine($"{i + num}. Name: {usboptions[i].DisplayName}");
+
                             i++;
                             //serial number and name for printer. Name reported might just be USB Printing Support or something generic
                             //the property necessary for printing is Device Path this is just for UI

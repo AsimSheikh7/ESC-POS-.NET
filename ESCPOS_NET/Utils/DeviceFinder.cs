@@ -57,14 +57,28 @@ namespace ESCPOS_NET.Utils
         }
         #endregion
         #region Device Methods
+        //public static List<DeviceDetails> GetDevices()
+        //{
+        //    //https://learn.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-usb-device
+        //    //USB devices: a5dcbf10-6530-11d2-901f-00c04fb951ed
+        //    //Bluetooth devices: 00f40965-e89d-4487-9890-87c3abb211f4
+        //    var devices = GetDevicesbyClassID("a5dcbf10-6530-11d2-901f-00c04fb951ed");
+        //    return devices;
+        //}
+
         public static List<DeviceDetails> GetDevices()
         {
-            //https://learn.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-usb-device
-            //USB devices: a5dcbf10-6530-11d2-901f-00c04fb951ed
-            //Bluetooth devices: 00f40965-e89d-4487-9890-87c3abb211f4
-            var devices = GetDevicesbyClassID("a5dcbf10-6530-11d2-901f-00c04fb951ed");
-            return devices;
+            // Printer device interface class GUID
+            var printerClassGuid = "28D78FAD-5A12-11D1-AE5B-0000F803A8C2";
+            var allPrinters = GetDevicesbyClassID(printerClassGuid);
+
+            // Filter only USB printers based on DevicePath or BusName
+            return allPrinters.FindAll(d =>
+                (!string.IsNullOrWhiteSpace(d.DevicePath) && d.DevicePath.ToLower().Contains("usb")) ||
+                (!string.IsNullOrWhiteSpace(d.BusName) && d.BusName.ToLower().Contains("usb"))
+            );
         }
+
         private static List<DeviceDetails> GetDevicesbyClassID(string classguid)
         {
             IntPtr intPtr = IntPtr.Zero;
@@ -191,7 +205,7 @@ namespace ESCPOS_NET.Utils
                     // Exception is commented out because it'll throw error for every USB device
                     // that isn't printer for example webcam, mouse etc
 
-                    //Win32Exception("Failed to get property for device");
+                    Win32Exception("Failed to get property for device");
                 }
                 byte[] lbuffer = new byte[outsize];
                 Marshal.Copy(buffer, lbuffer, 0, (int)outsize);
